@@ -211,6 +211,9 @@
         <Content Include="www\img\logo.png" />
     </ItemGroup>
     <ItemGroup>
+        <Content Include="www\img\Thumbs.db" />
+    </ItemGroup>
+    <ItemGroup>
         <Content Include="www\index.html" />
     </ItemGroup>
     <ItemGroup>
