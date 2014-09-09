@@ -28,15 +28,29 @@
         <title>Gentle Ultimate</title>
     </head>
     <body>
-        <div class="app">
-            <h1>Gentle Ultimate</h1>
-            <div id="deviceready" class="blink">
-                <p class="event listening">Connecting to Device</p>
-                <p class="event received">Device is Ready</p>
+        <div ng-app="gu">
+            <!--<div class="splash-screen" ng-cloak="">
+                <p>Loading...</p>
+            </div>-->
+
+            <div ng-controller="main as vm">
+                <div ng-view class="shuffle-animation"></div>
             </div>
         </div>
+
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
+
+        <script type="text/javascript" src="js/lib/angular/angular.min.js"></script>
+        <script type="text/javascript" src="js/lib/angular-touch/angular-touch.min.js"></script>
+        <script type="text/javascript" src="js/lib/angular-route/angular-route.min.js"></script>
+        <script type="text/javascript" src="js/lib/angular-animate/angular-animate.min.js"></script>
+
+        <script type="text/javascript" src="js/app/gu.js"></script>
+        <script type="text/javascript" src="js/app/main.js"></script>
+        <script type="text/javascript" src="js/app/main/points.js"></script>
+        <script type="text/javascript" src="js/app/secondary/secondary.js"></script>
+
         <script type="text/javascript">
             app.initialize();
         </script>
