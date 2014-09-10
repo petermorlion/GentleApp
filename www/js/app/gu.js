@@ -37,8 +37,8 @@
                 url: '/main',
                 templateUrl: '/js/app/main/main.html'
             }, {
-                url: '/secondary',
-                templateUrl: '/js/app/secondary/secondary.html'
+                url: '/settings',
+                templateUrl: '/js/app/settings/settings.html'
             }
         ];
     }

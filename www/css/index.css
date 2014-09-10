@@ -24,8 +24,9 @@ body {
     -webkit-touch-callout: none;                /* prevent callout to copy image, etc when tap to hold */
     -webkit-text-size-adjust: none;             /* prevent webkit from resizing text to fit */
     -webkit-user-select: none;                  /* prevent copy paste, to allow, change 'none' to 'text' */
-    background-color:#0C6D00;
+    background-color:#fff;
     background-attachment:fixed;
+    color: #727272;
     font-family:'HelveticaNeue-Light', 'HelveticaNeue', Helvetica, Arial, sans-serif;
     font-size:12px;
     height:100%;
@@ -104,4 +105,10 @@ h1 {
     -webkit-animation:fade 3000ms infinite;
 }
 
-/* Non-Cordova css */
+a {
+    color: #0C6D00;
+}
+
+a:hover {
+    color: #074200;
+}
