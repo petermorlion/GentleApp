@@ -104,11 +104,4 @@ h1 {
     -webkit-animation:fade 3000ms infinite;
 }
 
-[ng-cloak].splash {
-    display: block !important;
-}
-
-.splash {
-    display: none;
-    background-color: #0C6D00;
-}
+/* Non-Cordova css */
