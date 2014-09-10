@@ -9,4 +9,11 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
+	<icon src="res/icon.png" />
+	<platform name="ios">
+		<icon src="res/ios/apple-touch-icon.png" width="60" height="60" />
+		<icon src="res/ios/apple-touch-icon-76x76.png" width="76" height="76" />
+		<icon src="res/ios/apple-touch-icon-120x120.png" width="120" height="120" />
+		<icon src="res/ios/apple-touch-icon-152x152.png" width="152" height="152" />
+	</platform>
 </widget>
