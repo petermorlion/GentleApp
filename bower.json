@@ -1,0 +1,29 @@
+{
+  "name": "GentleApp",
+  "version": "0.0.2",
+  "authors": [
+    "petermorlion <peter.morlion@live.be>"
+  ],
+  "description": "A mobile app for Gentle Ultimate",
+  "keywords": [
+    "Ultimate",
+    "frisbee"
+  ],
+  "license": "MIT",
+  "homepage": "http://www.gentlesite.be",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "www/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular-material": "~0.6.1",
+    "angular-ui-router": "~0.2.13",
+    "angular": "~1.3.6",
+    "drupal-client": "~0.2.2"
+  }
+}

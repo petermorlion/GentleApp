@@ -1,0 +1,18 @@
+<h1>Inloggen</h1>
+
+<div class="overlay" layout="column" layout-align="center center" ng-show="vm.isBusy">
+	<md-progress-circular md-mode="indeterminate"></md-progress-circular>
+</div>
+
+<div ng-hide="vm.isBusy" class="partial">
+	<md-content layout="column" ng-hide="vm.isLoggedIn">
+		<md-text-float label="Gebruikersnaam" ng-model="vm.username"></md-text-float>	
+		<md-text-float label="Paswoord" ng-model="vm.password" type="password"></md-text-float>
+		<md-button class="md-raised md-primary" ng-click="vm.login()">Inloggen</md-button>
+	</md-content>
+
+	<md-content layout="column" ng-show="vm.isLoggedIn">
+		<div>Je bent ingelogd.</div>
+		<md-button class="md-raised md-primary" ng-click="vm.logout()">Afmelden</md-button>
+	</md-content>
+</div>

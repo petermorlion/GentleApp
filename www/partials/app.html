@@ -1,0 +1,16 @@
+<div>
+	<md-sidenav md-component-id="left" class="md-sidenav-left" md-is-open="vm.isMenuOpen">
+		<md-list layout="column">
+			<md-item ng-repeat="item in vm.menuItems">
+				<md-item-content>
+					<md-button ui-sref="{{item.sref}}" ng-click="vm.closeMenu()" flex>{{item.label}}</md-button>
+				</md-item-content>
+			</md-item>
+		</md-list>
+	</md-sidenav>
+
+	<md-content>
+		<md-button ng-click="vm.openMenu()">Menu</md-button>
+		<div ui-view></div>
+	</md-content>
+</div>
