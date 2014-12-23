@@ -5,6 +5,7 @@
   "main": "www/index.html",
   "dependencies": {},
   "devDependencies": {
+    "gulp": "^3.8.10",
     "jasmine": "^2.1.1"
   },
   "scripts": {
