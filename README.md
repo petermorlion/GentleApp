@@ -10,4 +10,4 @@ What you need globally:
  - gulp
  - karma
 
-Run "karma" to watch and run the tests.
+Run "karma start" to watch and run the tests.

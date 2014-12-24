@@ -29,7 +29,7 @@ function LoginController(drupalClient, messageService, $scope) {
 	      function (err) {
 	          vm.isLoggedIn = false;
 	          vm.isBusy = false;
-	          alert(err);
+	          //alert(err);
 	          $scope.$apply();
 	      });
 	};
@@ -42,7 +42,7 @@ function LoginController(drupalClient, messageService, $scope) {
 			vm.isBusy = false;
 			$scope.$apply();
 		}, function(err) {
-			alert(err);
+			//alert(err);
 			vm.isBusy = false;
 			$scope.$apply();
 		});
