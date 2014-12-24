@@ -1,5 +1,6 @@
 var gulp = require('gulp');
+var jasmine = require('gulp-jasmine');
 
 gulp.task('default', function() {
-  // place code for your default task here
+  gulp.src('test/*.js').pipe(jasmine());
 });
