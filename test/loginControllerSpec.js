@@ -62,44 +62,44 @@ describe("A loginController without stored credentials", function() {
   });
 });
 
-// describe("A loginController with correct credentials entered by the user", function() {
-//   var drupalClient, messageService, scope, sessionData, loginController = null;
+describe("A loginController with correct credentials entered by the user", function() {
+  var drupalClient, messageService, scope, sessionData, loginController = null;
 
-//   beforeEach(function() {
-//     messageService = {
-//       broadcast: function() {}
-//     };
+  beforeEach(function() {
+    messageService = {
+      broadcast: function() {}
+    };
 
-//     spyOn(messageService, 'broadcast');
+    spyOn(messageService, 'broadcast');
 
-//     scope = {
-//       $apply: function() {}
-//     };
+    scope = {
+      $apply: function() {}
+    };
 
-//     spyOn(scope, '$apply');
+    spyOn(scope, '$apply');
 
-//     drupalClient = {
-//       systemConnect: function(success, error) {},
-//       login: function(username, password, success, error) {
-//         success();
-//       }
-//     };
+    drupalClient = {
+      systemConnect: function(success, error) {},
+      login: function(username, password, success, error) {
+        success();
+      }
+    };
 
-//     spyOn(drupalClient, 'login');
+    spyOn(drupalClient, 'login').and.callThrough();
 
-//     loginController = new LoginController(drupalClient, messageService, scope);
-//   });
+    loginController = new LoginController(drupalClient, messageService, scope);
+  });
 
-//   it("should be able to login", function() {
-//     loginController.username = "User";
-//     loginController.password = "Pass";
-//     loginController.login();
+  it("should be able to login", function() {
+    loginController.username = "User";
+    loginController.password = "Pass";
+    loginController.login();
 
-//     expect(loginController.isLoggedIn).toBe(true);
-//     expect(loginController.isBusy).toBe(false);
+    expect(loginController.isLoggedIn).toBe(true);
+    expect(loginController.isBusy).toBe(false);
 
-//     expect(messageService.broadcast).toHaveBeenCalledWith('loginSuccessful');
-//     expect(scope.$apply).toHaveBeenCalled();
-//     expect(drupalClient.login).toHaveBeenCalledWith("User", "Pass", jasmine.any(Function), jasmine.any(Function));
-//   });
-// });
+    expect(messageService.broadcast).toHaveBeenCalledWith('loginSuccessful');
+    expect(scope.$apply).toHaveBeenCalled();
+    expect(drupalClient.login).toHaveBeenCalledWith("User", "Pass", jasmine.any(Function), jasmine.any(Function));
+  });
+});
