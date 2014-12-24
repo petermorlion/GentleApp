@@ -1,4 +1,7 @@
+var gulp = require('gulp');
 var karma = require('gulp-karma');
+
+gulp.task('default', ['test']);
 
 gulp.task('test', function() {
   // Be sure to return the stream
@@ -15,8 +18,4 @@ gulp.task('test', function() {
       console.log(err);
       this.emit('end'); //instead of erroring the stream, end it
     });
-});
-
-gulp.task('autotest', function() {
-  return gulp.watch(['www/js/**/*.js', 'test/spec/*.js'], ['test']);
 });
