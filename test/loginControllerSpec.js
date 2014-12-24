@@ -1,9 +1,21 @@
-describe("A loginController", function() {
-  it("should return true", function() {
-    var foo = 0;
-    foo += 1;
+describe("A loginController with credentials", function() {
+  it("should login initially", function() {
+    var drupalClient = {
+      systemConnect: function(success, error) {
+        var sessionData = {
+          user: {
+            uid: 666
+          }
+        };
+        
+        success(sessionData);
+      }
+    };
 
-    expect(foo).toEqual(1);
+    var loginController = new LoginController(drupalClient);
+
+    expect(loginController.isLoggedIn).toBe(true);
+    expect(loginController.isBusy).toBe(false);
   });
 });
 
