@@ -103,3 +103,45 @@ describe("A loginController with correct credentials entered by the user", funct
     expect(drupalClient.login).toHaveBeenCalledWith("User", "Pass", jasmine.any(Function), jasmine.any(Function));
   });
 });
+
+describe("A loginController with incorrect credentials entered by the user", function() {
+  var drupalClient, messageService, scope, sessionData, loginController = null;
+
+  beforeEach(function() {
+    messageService = {
+      broadcast: function() {}
+    };
+
+    spyOn(messageService, 'broadcast');
+
+    scope = {
+      $apply: function() {}
+    };
+
+    spyOn(scope, '$apply');
+
+    drupalClient = {
+      systemConnect: function(success, error) {},
+      login: function(username, password, success, error) {
+        error();
+      }
+    };
+
+    spyOn(drupalClient, 'login').and.callThrough();
+
+    loginController = new LoginController(drupalClient, messageService, scope);
+  });
+
+  it("should not be able to login", function() {
+    loginController.username = "User";
+    loginController.password = "Pass";
+    loginController.login();
+
+    expect(loginController.isLoggedIn).toBe(false);
+    expect(loginController.isBusy).toBe(false);
+
+    expect(messageService.broadcast).not.toHaveBeenCalled();
+    expect(scope.$apply).toHaveBeenCalled();
+    expect(drupalClient.login).toHaveBeenCalledWith("User", "Pass", jasmine.any(Function), jasmine.any(Function));
+  });
+});
