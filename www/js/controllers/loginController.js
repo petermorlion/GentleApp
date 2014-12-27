@@ -1,6 +1,10 @@
 function LoginController(drupalClient, messageService, $scope) {
 	var vm = this;
 
+	vm._drupalClient = drupalClient;
+	vm._messageService = messageService;
+	vm._scope = $scope;
+
 	vm.username = '';
 	vm.password = '';
 	vm.isLoggedIn = false;
@@ -16,35 +20,37 @@ function LoginController(drupalClient, messageService, $scope) {
 		vm.isBusy = false;
 		$scope.$apply();
 	});
+};
 
-	vm.login = function() {
-		vm.isBusy = true;
-		drupalClient.login(vm.username, vm.password,
+LoginController.prototype.login = function() {
+	var vm = this;
+	vm.isBusy = true;
+		vm._drupalClient.login(vm.username, vm.password,
 	      function (userData) {
-	          messageService.broadcast('loginSuccessful');
+	          vm._messageService.broadcast('loginSuccessful');
 	          vm.isLoggedIn = true;
 	          vm.isBusy = false;
-	          $scope.$apply();
+	          vm._scope.$apply();
 	      },
 	      function (err) {
 	          vm.isLoggedIn = false;
 	          vm.isBusy = false;
-	          //alert(err);
-	          $scope.$apply();
+	          // TODO: error handling
+	          vm._scope.$apply();
 	      });
-	};
+};
 
-	vm.logout = function() {
-		vm.isBusy = true;
-		drupalClient.logout(function() {
-			messageService.broadcast('logoutSuccessful');
+LoginController.prototype.logout = function() {
+	var vm = this;
+	vm.isBusy = true;
+		vm._drupalClient.logout(function() {
+			vm._messageService.broadcast('logoutSuccessful');
 			vm.isLoggedIn = false;
 			vm.isBusy = false;
-			$scope.$apply();
+			vm._scope.$apply();
 		}, function(err) {
-			//alert(err);
+			// TODO: error handling
 			vm.isBusy = false;
-			$scope.$apply();
+			vm._scope.$apply();
 		});
-	}
 };
