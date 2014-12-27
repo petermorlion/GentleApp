@@ -5,6 +5,7 @@ function LoginController(drupalClient, messageService, $scope, $mdToast) {
 	vm._messageService = messageService;
 	vm._scope = $scope;
 	vm._mdToast = $mdToast;
+	vm._headers = {'Content-Type': 'application/x-www-form-urlencoded'};
 
 	vm.username = '';
 	vm.password = '';
@@ -23,7 +24,7 @@ function LoginController(drupalClient, messageService, $scope, $mdToast) {
 		vm.isLoggedIn = false;
 		vm.isBusy = false;
 		$scope.$apply();
-	});
+	}, vm._headers);
 };
 
 LoginController.prototype.login = function() {
@@ -42,7 +43,7 @@ LoginController.prototype.login = function() {
 	          // TODO: unit test toast
 	          vm._mdToast.show(vm._mdToast.simple().content('Het inloggen is mislukt.'));
 	          vm._scope.$apply();
-	      });
+	      }, vm._headers);
 };
 
 LoginController.prototype.logout = function() {
@@ -57,5 +58,5 @@ LoginController.prototype.logout = function() {
 			// TODO: error handling
 			vm.isBusy = false;
 			vm._scope.$apply();
-		});
+		}, vm._headers);
 };

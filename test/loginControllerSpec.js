@@ -14,6 +14,8 @@ describe("A loginController with stored credentials", function() {
       }
     };
 
+    spyOn(drupalClient, 'systemConnect').and.callThrough();
+
     sessionData = {
       user: {
         uid: 666
@@ -27,6 +29,10 @@ describe("A loginController with stored credentials", function() {
     expect(loginController.isLoggedIn).toBe(true);
     expect(loginController.isBusy).toBe(false);
     expect(scope.$apply).toHaveBeenCalled();
+    expect(drupalClient.systemConnect).toHaveBeenCalledWith(
+      jasmine.any(Function), 
+      jasmine.any(Function),
+      jasmine.objectContaining({'Content-Type': 'application/x-www-form-urlencoded'}));
   });
 });
 
@@ -46,6 +52,8 @@ describe("A loginController without stored credentials", function() {
       }
     };
 
+    spyOn(drupalClient, 'systemConnect').and.callThrough();
+
     sessionData = {
       user: {
         uid: 0
@@ -59,6 +67,10 @@ describe("A loginController without stored credentials", function() {
     expect(loginController.isLoggedIn).toBe(false);
     expect(loginController.isBusy).toBe(false);
     expect(scope.$apply).toHaveBeenCalled();
+    expect(drupalClient.systemConnect).toHaveBeenCalledWith(
+      jasmine.any(Function), 
+      jasmine.any(Function),
+      jasmine.objectContaining({'Content-Type': 'application/x-www-form-urlencoded'}));
   });
 });
 
@@ -93,6 +105,7 @@ describe("A loginController with correct credentials entered by the user", funct
   it("should be able to login", function() {
     loginController.username = "User";
     loginController.password = "Pass";
+
     loginController.login();
 
     expect(loginController.isLoggedIn).toBe(true);
@@ -100,7 +113,12 @@ describe("A loginController with correct credentials entered by the user", funct
 
     expect(messageService.broadcast).toHaveBeenCalledWith('loginSuccessful');
     expect(scope.$apply).toHaveBeenCalled();
-    expect(drupalClient.login).toHaveBeenCalledWith("User", "Pass", jasmine.any(Function), jasmine.any(Function));
+    expect(drupalClient.login).toHaveBeenCalledWith(
+      "User", 
+      "Pass", 
+      jasmine.any(Function), 
+      jasmine.any(Function),
+      jasmine.objectContaining({'Content-Type': 'application/x-www-form-urlencoded'}));
   });
 });
 
@@ -160,7 +178,12 @@ describe("A loginController with incorrect credentials entered by the user", fun
 
     expect(messageService.broadcast).not.toHaveBeenCalled();
     expect(scope.$apply).toHaveBeenCalled();
-    expect(drupalClient.login).toHaveBeenCalledWith('User', 'Pass', jasmine.any(Function), jasmine.any(Function));
+    expect(drupalClient.login).toHaveBeenCalledWith(
+      'User',
+      'Pass', 
+      jasmine.any(Function), 
+      jasmine.any(Function),
+      jasmine.objectContaining({'Content-Type': 'application/x-www-form-urlencoded'}));
     expect(toast.content).toHaveBeenCalledWith('Het inloggen is mislukt.');
     expect(mdToast.show).toHaveBeenCalledWith(toast);
   });
