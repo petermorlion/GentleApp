@@ -105,7 +105,7 @@ describe("A loginController with correct credentials entered by the user", funct
 });
 
 describe("A loginController with incorrect credentials entered by the user", function() {
-  var drupalClient, messageService, scope, sessionData, loginController = null;
+  var drupalClient, messageService, scope, sessionData, toast, loginController, mdToast = null;
 
   beforeEach(function() {
     messageService = {
@@ -129,12 +129,30 @@ describe("A loginController with incorrect credentials entered by the user", fun
 
     spyOn(drupalClient, 'login').and.callThrough();
 
-    loginController = new LoginController(drupalClient, messageService, scope);
+    toast = {
+      content: function(){
+        return toast;
+      }
+    };
+
+    spyOn(toast, 'content').and.callThrough();
+
+    mdToast = {
+      simple: function() {
+        return toast;
+      },
+      show: function() {}
+    };
+
+    spyOn(mdToast, 'simple').and.callThrough();
+    spyOn(mdToast, 'show');
+
+    loginController = new LoginController(drupalClient, messageService, scope, mdToast);
   });
 
   it("should not be able to login", function() {
-    loginController.username = "User";
-    loginController.password = "Pass";
+    loginController.username = 'User';
+    loginController.password = 'Pass';
     loginController.login();
 
     expect(loginController.isLoggedIn).toBe(false);
@@ -142,6 +160,8 @@ describe("A loginController with incorrect credentials entered by the user", fun
 
     expect(messageService.broadcast).not.toHaveBeenCalled();
     expect(scope.$apply).toHaveBeenCalled();
-    expect(drupalClient.login).toHaveBeenCalledWith("User", "Pass", jasmine.any(Function), jasmine.any(Function));
+    expect(drupalClient.login).toHaveBeenCalledWith('User', 'Pass', jasmine.any(Function), jasmine.any(Function));
+    expect(toast.content).toHaveBeenCalledWith('Het inloggen is mislukt.');
+    expect(mdToast.show).toHaveBeenCalledWith(toast);
   });
 });

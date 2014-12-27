@@ -1,9 +1,10 @@
-function LoginController(drupalClient, messageService, $scope) {
+function LoginController(drupalClient, messageService, $scope, $mdToast) {
 	var vm = this;
 
 	vm._drupalClient = drupalClient;
 	vm._messageService = messageService;
 	vm._scope = $scope;
+	vm._mdToast = $mdToast;
 
 	vm.username = '';
 	vm.password = '';
@@ -15,7 +16,10 @@ function LoginController(drupalClient, messageService, $scope) {
 		vm.isLoggedIn = sessionData.user.uid !== 0;
 		vm.isBusy = false;
 		$scope.$apply();
-	}, function(){
+	}, function(err){
+		// TODO: unit test toast
+		alert(err);
+	    $mdToast.show(vm._mdToast.simple().content('Het inloggen is mislukt.'));
 		vm.isLoggedIn = false;
 		vm.isBusy = false;
 		$scope.$apply();
@@ -35,7 +39,8 @@ LoginController.prototype.login = function() {
 	      function (err) {
 	          vm.isLoggedIn = false;
 	          vm.isBusy = false;
-	          // TODO: error handling
+	          // TODO: unit test toast
+	          vm._mdToast.show(vm._mdToast.simple().content('Het inloggen is mislukt.'));
 	          vm._scope.$apply();
 	      });
 };
