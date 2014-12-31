@@ -1,11 +1,11 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.cordova.hellocordova" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>HelloCordova</name>
+<widget id="be.gentlesite.app" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Gentle Ultimate</name>
     <description>
-        A sample Apache Cordova application that responds to the deviceready event.
+        A mobile app for Gentle Ultimate frisbee team.
     </description>
-    <author email="dev@cordova.apache.org" href="http://cordova.io">
-        Apache Cordova Team
+    <author email="peter.morlion@live.be" href="http://petermorlion.blogspot.com">
+        Peter Morlion
     </author>
     <content src="index.html" />
     <access origin="*" />
