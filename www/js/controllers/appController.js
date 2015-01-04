@@ -16,7 +16,7 @@ function AppController(messageService, $scope, drupalClient, $state) {
 			vm.isBusy = false;
 		}
 		else {
-			$state.go('login');
+			$state.go('app.login');
 		}
 	}, function(err){
 		// TODO: handle error

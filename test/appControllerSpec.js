@@ -36,7 +36,7 @@ describe('An appController, when constructing and not logged in', function() {
 	      	jasmine.any(Function),
 	      	jasmine.objectContaining({'Content-Type': 'application/json'}));
 
-		expect(state.go).toHaveBeenCalledWith('login');
+		expect(state.go).toHaveBeenCalledWith('app.login');
 	});
 });
 
