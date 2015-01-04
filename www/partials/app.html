@@ -10,7 +10,7 @@
 	</md-sidenav>
 
 	<md-content>
-		<md-button ng-click="vm.openMenu()">Menu</md-button>
+		<md-button ng-show="vm.isMenuVisible" ng-click="vm.openMenu()">Menu</md-button>
 		<div ui-view></div>
 	</md-content>
 </div>

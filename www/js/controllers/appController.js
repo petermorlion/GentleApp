@@ -4,6 +4,7 @@ function AppController(messageService, $scope, drupalClient, $state, $rootScope)
 	vm._headers = {'Content-Type': 'application/json'};
 
 	vm.isMenuOpen = false;
+	vm.isMenuVisible = false;
 
 	vm.menuItems = [
 		{ sref: 'app.home', label: 'Home' },
@@ -14,7 +15,7 @@ function AppController(messageService, $scope, drupalClient, $state, $rootScope)
 	    drupalClient.systemConnect(function(sessionData) {
 			if (sessionData.user.uid !== 0) {
 				// TODO: test, UI, manual test
-				vm.isBusy = false;
+				vm.isMenuVisible = true;
 			}
 			else {
 				$state.go('app.login');
@@ -30,6 +31,9 @@ function AppController(messageService, $scope, drupalClient, $state, $rootScope)
 				vm.menuItems[i].label = 'Afmelden';
 			}
 		};
+
+		// TODO: test, UI, manual test
+		vm.isMenuVisible = true;
 	});
 
 	$scope.$on('logoutSuccessful', function(){
@@ -38,6 +42,9 @@ function AppController(messageService, $scope, drupalClient, $state, $rootScope)
 				vm.menuItems[i].label = 'Inloggen';
 			}
 		};
+
+		// TODO: test, UI, manual test
+		vm.isMenuVisible = false;
 	});
 }
 
