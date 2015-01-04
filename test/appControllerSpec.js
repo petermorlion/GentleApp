@@ -1,5 +1,6 @@
-describe('An appController, when constructing and not logged in', function() {
-	var messageService, scope, drupalClient, sessionData, state = null
+describe('An appController, when viewContentLoading and not logged in', function() {
+	var messageService, scope, drupalClient, sessionData, state, rootScope = null
+	var eventHandler = null;
 
 	beforeEach(function() {
 		messageService = {};
@@ -26,10 +27,20 @@ describe('An appController, when constructing and not logged in', function() {
 		};
 
 		spyOn(state, 'go');
+
+		rootScope = {
+			$on: function(eventName, callback) {
+				eventHandler = callback;
+			}
+		};
+
+		spyOn(rootScope, '$on').and.callThrough();
 	});
 
 	it('should redirect to the login page', function() {
-		var appController = new AppController(messageService, scope, drupalClient, state)
+		var appController = new AppController(messageService, scope, drupalClient, state, rootScope);
+
+		eventHandler();
 
 		expect(drupalClient.systemConnect).toHaveBeenCalledWith(
 	      	jasmine.any(Function), 
@@ -37,11 +48,13 @@ describe('An appController, when constructing and not logged in', function() {
 	      	jasmine.objectContaining({'Content-Type': 'application/json'}));
 
 		expect(state.go).toHaveBeenCalledWith('app.login');
+
+		expect(rootScope.$on).toHaveBeenCalledWith('$viewContentLoading', jasmine.any(Function));
 	});
 });
 
 describe('An appController, when closing the menu', function() {
-	var messageService, scope, drupalClient = null;
+	var messageService, scope, drupalClient, rootScope = null;
 
 	beforeEach(function() {
 		messageService = {};
@@ -51,10 +64,13 @@ describe('An appController, when closing the menu', function() {
 		drupalClient = {
 			systemConnect: function() {}
 		};
+		rootScope = {
+			$on: function() {}
+		};
 	});
 
 	it('should set the menu as closed', function() {
-		var appController = new AppController(messageService, scope, drupalClient);
+		var appController = new AppController(messageService, scope, drupalClient, null, rootScope);
 
 		appController.closeMenu();
 
@@ -63,7 +79,7 @@ describe('An appController, when closing the menu', function() {
 });
 
 describe('An appController, when opening the menu', function() {
-	var messageService, scope, drupalClient = null;
+	var messageService, scope, drupalClient, rootScope = null;
 
 	beforeEach(function() {
 		messageService = {};
@@ -73,10 +89,13 @@ describe('An appController, when opening the menu', function() {
 		drupalClient = {
 			systemConnect: function() {}
 		};
+		rootScope = {
+			$on: function() {}
+		};
 	});
 
 	it('should set the menu as opened', function() {
-		var appController = new AppController(messageService, scope, drupalClient);
+		var appController = new AppController(messageService, scope, drupalClient, null, rootScope);
 
 		appController.openMenu();
 

@@ -1,4 +1,4 @@
-function AppController(messageService, $scope, drupalClient, $state) {
+function AppController(messageService, $scope, drupalClient, $state, $rootScope) {
 	var vm = this;
 
 	vm._headers = {'Content-Type': 'application/json'};
@@ -10,17 +10,19 @@ function AppController(messageService, $scope, drupalClient, $state) {
 		{ sref: 'app.login', label: 'Inloggen' },
 	];
 
-	drupalClient.systemConnect(function(sessionData) {
-		if (sessionData.user.uid !== 0) {
-			// TODO: test, UI, manual test
-			vm.isBusy = false;
-		}
-		else {
-			$state.go('app.login');
-		}
-	}, function(err){
-		// TODO: handle error
-	}, vm._headers);
+	$rootScope.$on('$viewContentLoading', function(event, viewConfig){ 
+	    drupalClient.systemConnect(function(sessionData) {
+			if (sessionData.user.uid !== 0) {
+				// TODO: test, UI, manual test
+				vm.isBusy = false;
+			}
+			else {
+				$state.go('app.login');
+			}
+		}, function(err){
+			// TODO: handle error
+		}, vm._headers);
+	});
 
 	$scope.$on('loginSuccessful', function(){
 		for (var i = 0; i < vm.menuItems.length; i++) {

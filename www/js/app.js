@@ -15,4 +15,4 @@ angular
 .factory('messageService', ['$rootScope', MessageService])
 
 .controller('LoginController', ['drupalClient', 'messageService', '$scope', '$mdToast', LoginController])
-.controller('AppController', ['messageService', '$scope', 'drupalClient', '$state', AppController]);
+.controller('AppController', ['messageService', '$scope', 'drupalClient', '$state', '$rootScope', AppController]);
