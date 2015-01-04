@@ -32,7 +32,7 @@ describe("A loginController with stored credentials", function() {
     expect(drupalClient.systemConnect).toHaveBeenCalledWith(
       jasmine.any(Function), 
       jasmine.any(Function),
-      jasmine.objectContaining({'Content-Type': 'application/x-www-form-urlencoded'}));
+      jasmine.objectContaining({'Content-Type': 'application/json'}));
   });
 });
 
@@ -70,7 +70,7 @@ describe("A loginController without stored credentials", function() {
     expect(drupalClient.systemConnect).toHaveBeenCalledWith(
       jasmine.any(Function), 
       jasmine.any(Function),
-      jasmine.objectContaining({'Content-Type': 'application/x-www-form-urlencoded'}));
+      jasmine.objectContaining({'Content-Type': 'application/json'}));
   });
 });
 
@@ -118,7 +118,7 @@ describe("A loginController with correct credentials entered by the user", funct
       "Pass", 
       jasmine.any(Function), 
       jasmine.any(Function),
-      jasmine.objectContaining({'Content-Type': 'application/x-www-form-urlencoded'}));
+      jasmine.objectContaining({'Content-Type': 'application/json'}));
   });
 });
 
@@ -183,7 +183,7 @@ describe("A loginController with incorrect credentials entered by the user", fun
       'Pass', 
       jasmine.any(Function), 
       jasmine.any(Function),
-      jasmine.objectContaining({'Content-Type': 'application/x-www-form-urlencoded'}));
+      jasmine.objectContaining({'Content-Type': 'application/json'}));
     expect(toast.content).toHaveBeenCalledWith('Het inloggen is mislukt.');
     expect(mdToast.show).toHaveBeenCalledWith(toast);
   });
