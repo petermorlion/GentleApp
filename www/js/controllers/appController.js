@@ -1,51 +1,35 @@
-function AppController(messageService, $scope, drupalClient, $state, $rootScope) {
+function AppController(messageService, $scope, drupalClient, $state) {
+	console.log('Creating AppController');
+
 	var vm = this;
 
 	vm._headers = {'Content-Type': 'application/json'};
 
+	vm._state = $state;
+
 	vm.isMenuOpen = false;
 	vm.isMenuVisible = false;
+	vm.menuItems = [];
 
-	vm.menuItems = [
-		{ sref: 'app.home', label: 'Home' },
-		{ sref: 'app.login', label: 'Inloggen' },
-	];
-
-	$rootScope.$on('$viewContentLoading', function(event, viewConfig){ 
+	$scope.$on('$viewContentLoaded', function(event, viewConfig){ 
 	    drupalClient.systemConnect(function(sessionData) {
 			if (sessionData.user.uid !== 0) {
-				// TODO: test, UI, manual test
-				vm.isMenuVisible = true;
+				vm.onLoggedIn();
 			}
 			else {
-				$state.go('app.login');
+				vm.onLoggedOut();
 			}
 		}, function(err){
 			// TODO: handle error
+			vm.onLoggedOut();
 		}, vm._headers);
 	});
 
-	$scope.$on('loginSuccessful', function(){
-		for (var i = 0; i < vm.menuItems.length; i++) {
-			if (vm.menuItems[i].sref === 'app.login') {
-				vm.menuItems[i].label = 'Afmelden';
-			}
-		};
+	$scope.$on('loginSuccessful', vm.onLoggedIn);
 
-		// TODO: test, UI, manual test
-		vm.isMenuVisible = true;
-	});
+	$scope.$on('logoutSuccessful', vm.onLoggedOut);
 
-	$scope.$on('logoutSuccessful', function(){
-		for (var i = 0; i < vm.menuItems.length; i++) {
-			if (vm.menuItems[i].sref === 'app.login') {
-				vm.menuItems[i].label = 'Inloggen';
-			}
-		};
-
-		// TODO: test, UI, manual test
-		vm.isMenuVisible = false;
-	});
+	console.log('Created AppController');
 }
 
 AppController.prototype.closeMenu = function() {
@@ -54,4 +38,20 @@ AppController.prototype.closeMenu = function() {
 
 AppController.prototype.openMenu = function() {
 	this.isMenuOpen = true;
+};
+
+AppController.prototype.onLoggedIn = function() {
+	this.menuItems = [
+		{ sref: 'app.home', label: 'Home' },
+		{ sref: 'app.login', label: 'Afmelden' },
+	];
+
+	// TODO: test, UI, manual test
+	this.isMenuVisible = true;
+};
+
+AppController.prototype.onLoggedOut = function() {
+	// TODO: test, UI, manual test
+	this.isMenuVisible = false;
+	this._state.go('app.login');
 };

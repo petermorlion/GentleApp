@@ -1,11 +1,13 @@
 describe('An appController, when viewContentLoading and not logged in', function() {
-	var messageService, scope, drupalClient, sessionData, state, rootScope = null
+	var messageService, scope, drupalClient, sessionData, state = null
 	var eventHandler = null;
 
 	beforeEach(function() {
 		messageService = {};
 		scope = {
-			$on: function() {}
+			$on: function(eventName, callback) {
+				eventHandler = callback;
+			}
 		};
 
 		sessionData = {
@@ -27,18 +29,10 @@ describe('An appController, when viewContentLoading and not logged in', function
 		};
 
 		spyOn(state, 'go');
-
-		rootScope = {
-			$on: function(eventName, callback) {
-				eventHandler = callback;
-			}
-		};
-
-		spyOn(rootScope, '$on').and.callThrough();
 	});
 
 	it('should redirect to the login page', function() {
-		var appController = new AppController(messageService, scope, drupalClient, state, rootScope);
+		var appController = new AppController(messageService, scope, drupalClient, state);
 
 		eventHandler();
 
@@ -49,7 +43,7 @@ describe('An appController, when viewContentLoading and not logged in', function
 
 		expect(state.go).toHaveBeenCalledWith('app.login');
 
-		expect(rootScope.$on).toHaveBeenCalledWith('$viewContentLoading', jasmine.any(Function));
+		expect(scope.$on).toHaveBeenCalledWith('$viewContentLoaded', jasmine.any(Function));
 	});
 });
 

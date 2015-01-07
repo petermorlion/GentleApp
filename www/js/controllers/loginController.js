@@ -26,7 +26,6 @@ function LoginController(drupalClient, messageService, $scope, $mdToast) {
 		}
 	}, function(err){
 		// TODO: unit test toast
-		alert(err);
 	    $mdToast.show(vm._mdToast.simple().content('Het inloggen is mislukt.'));
 		vm.isLoggedIn = false;
 		vm.isBusy = false;
@@ -45,7 +44,6 @@ LoginController.prototype.login = function() {
           vm._scope.$apply();
       },
       function (err) {
-      	  alert(err);
           vm.isLoggedIn = false;
           vm.isBusy = false;
           // TODO: unit test toast
