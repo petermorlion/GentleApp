@@ -25,9 +25,9 @@ function AppController(messageService, $scope, drupalClient, $state) {
 		}, vm._headers);
 	});
 
-	$scope.$on('loginSuccessful', vm.onLoggedIn);
+	$scope.$on('loginSuccessful', function() { vm.onLoggedIn(); });
 
-	$scope.$on('logoutSuccessful', vm.onLoggedOut);
+	$scope.$on('logoutSuccessful', function() { vm.onLoggedOut(); });
 
 	console.log('Created AppController');
 }
@@ -43,6 +43,7 @@ AppController.prototype.openMenu = function() {
 AppController.prototype.onLoggedIn = function() {
 	this.menuItems = [
 		{ sref: 'app.home', label: 'Home' },
+		{ sref: 'app.saldo', label: 'Saldo' },
 		{ sref: 'app.login', label: 'Afmelden' },
 	];
 
