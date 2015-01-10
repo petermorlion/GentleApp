@@ -1,11 +1,11 @@
-function SaldoController(drupalClient) {
+function SaldoController(drupalClient, $scope) {
 	console.log('Creating SaldoController');
 
 	var vm = this;
 
 	vm._headers = {'Content-Type': 'application/json'};
 	vm.saldo = "";
-
+	vm._scope = $scope;
 
 	drupalClient.makeAuthenticatedRequest(
 		{
@@ -14,10 +14,12 @@ function SaldoController(drupalClient) {
             contentType:'application/json'
         },
 		function(data) {
-			debugger;
 			vm.saldo = data.total;
+			$scope.$apply();
 		},
-		function() {},
+		function() {
+			//TODO: handle error
+		},
 		vm._headers);
 
 	console.log('Created SaldoController');

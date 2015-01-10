@@ -17,4 +17,4 @@ angular
 
 .controller('LoginController', ['drupalClient', 'messageService', '$scope', '$mdToast', LoginController])
 .controller('AppController', ['messageService', '$scope', 'drupalClient', '$state', '$rootScope', AppController])
-.controller('SaldoController', ['drupalClient', SaldoController]);
+.controller('SaldoController', ['drupalClient', '$scope', SaldoController]);
