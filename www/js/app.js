@@ -11,8 +11,9 @@ angular
 		.state('app.saldo', { url: '/saldo', templateUrl: 'partials/saldo.html', controller: 'SaldoController as vm' })
 		.state('app.login', { url: '/login', templateUrl: 'partials/login.html', controller: 'LoginController as vm' })
 }])
-	
+
 .factory('drupalClient', DrupalClient)
+.factory('gentleSite', ['drupalClient', GentleSite])
 .factory('messageService', ['$rootScope', MessageService])
 
 .controller('LoginController', ['drupalClient', 'messageService', '$scope', '$mdToast', LoginController])
