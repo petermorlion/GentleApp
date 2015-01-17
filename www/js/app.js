@@ -13,7 +13,7 @@ angular
 }])
 
 .factory('drupalClient', DrupalClient)
-.factory('gentleSite', ['drupalClient', GentleSite])
+.factory('gentleSite', ['drupalClient', '$q', GentleSite])
 .factory('messageService', ['$rootScope', MessageService])
 
 .controller('LoginController', ['drupalClient', 'messageService', '$scope', '$mdToast', LoginController])

@@ -6,9 +6,12 @@ describe('An appController, when viewContentLoading and not logged in', function
 		messageService = {};
 		scope = {
 			$on: function(eventName, callback) {
-				eventHandler = callback;
+				if (eventName === '$viewContentLoaded') {
+					eventHandler = callback;
+				}
 			}
 		};
+		spyOn(scope, '$on').and.callThrough();
 
 		sessionData = {
 	    	user: {
@@ -37,7 +40,7 @@ describe('An appController, when viewContentLoading and not logged in', function
 		eventHandler();
 
 		expect(drupalClient.systemConnect).toHaveBeenCalledWith(
-	      	jasmine.any(Function), 
+	      	jasmine.any(Function),
 	      	jasmine.any(Function),
 	      	jasmine.objectContaining({'Content-Type': 'application/json'}));
 

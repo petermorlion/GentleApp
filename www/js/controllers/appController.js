@@ -11,7 +11,7 @@ function AppController(messageService, $scope, drupalClient, $state) {
 	vm.isMenuVisible = false;
 	vm.menuItems = [];
 
-	$scope.$on('$viewContentLoaded', function(event, viewConfig){ 
+	$scope.$on('$viewContentLoaded', function(event, viewConfig){
 	    drupalClient.systemConnect(function(sessionData) {
 			if (sessionData.user.uid !== 0) {
 				vm.onLoggedIn();

@@ -1,7 +1,8 @@
-function GentleSite(drupalClient) {
+function GentleSite(drupalClient, $q) {
   var gentleSite = {};
 
   gentleSite.drupalClient = drupalClient;
+  gentleSite.headers = {'Content-Type': 'application/json'};
 
   gentleSite.onSystemConnected = function() {
 
@@ -15,7 +16,24 @@ function GentleSite(drupalClient) {
     this.drupalClient.systemConnect(
       this.onSystemConnected,
       this.onError,
-      {'Content-Type': 'application/json'});
+      this.headers);
+  };
+
+  gentleSite.login = function(username, password) {
+    var deferred = $q.defer();
+
+    this.drupalClient.login(
+      username,
+      password,
+      function(userData) {
+        deferred.resolve(userData);
+      },
+      function(e) {
+        deferred.reject(e);
+      },
+      this.headers);
+
+    return deferred.promise();
   };
 
   gentleSite.init();
