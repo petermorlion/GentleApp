@@ -19,20 +19,11 @@ LoginController.prototype.login = function() {
 		vm._messageService.broadcast('loginSuccessful');
 		vm.isLoggedIn = true;
 		vm.isBusy = false;
+	}).catch(function() {
+		vm.isLoggedIn = false;
+		vm.isBusy = false;
+		vm._mdToast.show(vm._mdToast.simple().content('Het inloggen is mislukt.'));
 	});
-	/*
-	,
-      function (userData) {
-
-          vm._scope.$apply();
-      },
-      function (err) {
-          vm.isLoggedIn = false;
-          vm.isBusy = false;
-          // TODO: unit test toast
-          vm._mdToast.show(vm._mdToast.simple().content('Het inloggen is mislukt.'));
-          vm._scope.$apply();
-      }, vm._headers*/
 };
 
 LoginController.prototype.logout = function() {

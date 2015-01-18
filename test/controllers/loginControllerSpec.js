@@ -45,10 +45,15 @@ describe("A loginController with correct credentials entered by the user", funct
   });
 });
 
-/*describe("A loginController with incorrect credentials entered by the user", function() {
-  var drupalClient, messageService, scope, sessionData, toast, loginController, mdToast = null;
+describe("A loginController with incorrect credentials entered by the user", function() {
+  var gentleSite, messageService, sessionData, loginController, $rootScope, toast, mdToast = null;
 
-  beforeEach(function() {
+  beforeEach(inject(function(_$rootScope_, $q) {
+    $rootScope = _$rootScope_;
+
+    var deferred = $q.defer();
+    deferred.reject({});
+
     messageService = {
       broadcast: function() {}
     };
@@ -61,21 +66,16 @@ describe("A loginController with correct credentials entered by the user", funct
 
     spyOn(scope, '$apply');
 
-    drupalClient = {
-      systemConnect: function(success, error) {},
-      login: function(username, password, success, error) {
-        error();
-      }
+    gentleSite = {
+      login: function(username, password) {}
     };
-
-    spyOn(drupalClient, 'login').and.callThrough();
+    spyOn(gentleSite, 'login').and.returnValue(deferred.promise);
 
     toast = {
       content: function(){
         return toast;
       }
     };
-
     spyOn(toast, 'content').and.callThrough();
 
     mdToast = {
@@ -84,31 +84,26 @@ describe("A loginController with correct credentials entered by the user", funct
       },
       show: function() {}
     };
-
     spyOn(mdToast, 'simple').and.callThrough();
     spyOn(mdToast, 'show');
 
-    loginController = new LoginController(drupalClient, messageService, scope, mdToast);
-  });
+    loginController = new LoginController(gentleSite, messageService, mdToast);
 
-  it("should not be able to login", function() {
-    loginController.username = 'User';
-    loginController.password = 'Pass';
+    loginController.username = "User";
+    loginController.password = "Pass";
+
     loginController.login();
 
+    $rootScope.$apply();
+  }));
+
+  it("should not be able to login", function() {
     expect(loginController.isLoggedIn).toBe(false);
     expect(loginController.isBusy).toBe(false);
+  });
 
-    expect(messageService.broadcast).not.toHaveBeenCalled();
-    expect(scope.$apply).toHaveBeenCalled();
-    expect(drupalClient.login).toHaveBeenCalledWith(
-      'User',
-      'Pass',
-      jasmine.any(Function),
-      jasmine.any(Function),
-      jasmine.objectContaining({'Content-Type': 'application/json'}));
+  it('should broadcast the unsuccessful login', function() {
     expect(toast.content).toHaveBeenCalledWith('Het inloggen is mislukt.');
     expect(mdToast.show).toHaveBeenCalledWith(toast);
   });
 });
-*/
