@@ -15,6 +15,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      'www/lib/angular/angular.js',
+      'node_modules/angular-mocks/angular-mocks.js',
       'test/**/*.js',
       'www/js/**/*.js'
     ],
@@ -59,7 +61,7 @@ module.exports = function(config) {
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
     browsers: [
-        'PhantomJS', 
+        'PhantomJS',
         //'Chrome' //uncomment for debugging
     ],
 

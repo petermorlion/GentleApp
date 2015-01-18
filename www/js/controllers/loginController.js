@@ -1,46 +1,29 @@
-function LoginController(drupalClient, messageService, $scope, $mdToast) {
+function LoginController(gentleSite, messageService, $mdToast) {
 	var vm = this;
 
-	vm._drupalClient = drupalClient;
+	vm._gentleSite = gentleSite;
 	vm._messageService = messageService;
-	vm._scope = $scope;
 	vm._mdToast = $mdToast;
-	vm._headers = {'Content-Type': 'application/json'};
 
 	vm.username = '';
 	vm.password = '';
 	vm.isLoggedIn = false;
 
 	vm.isBusy = true;
-
-	drupalClient.systemConnect(function(sessionData) {
-		if (sessionData.user.uid !== 0) {
-			vm.isLoggedIn = true;
-			vm.isBusy = false;
-			$scope.$apply();
-		}
-		else {
-			vm.isLoggedIn = false;
-			vm.isBusy = false;
-			$scope.$apply();
-		}
-	}, function(err){
-		// TODO: unit test toast
-	    $mdToast.show(vm._mdToast.simple().content('Het inloggen is mislukt.'));
-		vm.isLoggedIn = false;
-		vm.isBusy = false;
-		$scope.$apply();
-	}, vm._headers);
 };
 
 LoginController.prototype.login = function() {
 	var vm = this;
 	vm.isBusy = true;
-	vm._drupalClient.login(vm.username, vm.password,
+	vm._gentleSite.login(vm.username, vm.password).then(function() {
+		vm._messageService.broadcast('loginSuccessful');
+		vm.isLoggedIn = true;
+		vm.isBusy = false;
+	});
+	/*
+	,
       function (userData) {
-          vm._messageService.broadcast('loginSuccessful');
-          vm.isLoggedIn = true;
-          vm.isBusy = false;
+
           vm._scope.$apply();
       },
       function (err) {
@@ -49,7 +32,7 @@ LoginController.prototype.login = function() {
           // TODO: unit test toast
           vm._mdToast.show(vm._mdToast.simple().content('Het inloggen is mislukt.'));
           vm._scope.$apply();
-      }, vm._headers);
+      }, vm._headers*/
 };
 
 LoginController.prototype.logout = function() {
