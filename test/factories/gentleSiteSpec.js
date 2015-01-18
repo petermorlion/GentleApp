@@ -20,7 +20,7 @@ describe('A GentleSite, when creating', function() {
 });
 
 describe('A GentleSite, when logging in', function() {
-  var gentleSite, drupalClient, $q, result, promise, userData, deferred = null;
+  var gentleSite, drupalClient, $q, result, promise, userData, deferred, $rootScope = null;
 
   beforeEach(function() {
     drupalClient = {
@@ -47,7 +47,12 @@ describe('A GentleSite, when logging in', function() {
       }
     };
 
-    gentleSite = new GentleSite(drupalClient, $q);
+    $rootScope = {
+      $apply: function() {}
+    };
+    spyOn($rootScope, '$apply');
+
+    gentleSite = new GentleSite(drupalClient, $q, $rootScope);
 
     result = gentleSite.login('u', 'p');
   });
@@ -68,10 +73,14 @@ describe('A GentleSite, when logging in', function() {
   it('should have called the resolve function of the deferred', function() {
     expect(deferred.resolve).toHaveBeenCalledWith(userData);
   });
+
+  it('should trigger the digest cycle', function() {
+    expect($rootScope.$apply).toHaveBeenCalled();
+  });
 });
 
 describe('A GentleSite, when failed to log in', function() {
-  var gentleSite, drupalClient, $q, result, promise, e, deferred = null;
+  var gentleSite, drupalClient, $q, result, promise, e, deferred, $rootScope = null;
 
   beforeEach(function() {
     drupalClient = {
@@ -98,7 +107,12 @@ describe('A GentleSite, when failed to log in', function() {
       }
     };
 
-    gentleSite = new GentleSite(drupalClient, $q);
+    $rootScope = {
+      $apply: function() {}
+    };
+    spyOn($rootScope, '$apply');
+
+    gentleSite = new GentleSite(drupalClient, $q, $rootScope);
 
     result = gentleSite.login('u', 'p');
   });
@@ -118,5 +132,9 @@ describe('A GentleSite, when failed to log in', function() {
 
     it('should have called the reject function of the deferred', function() {
       expect(deferred.reject).toHaveBeenCalledWith(e);
+    });
+
+    it('should trigger the digest cycle', function() {
+      expect($rootScope.$apply).toHaveBeenCalled();
     });
   });
