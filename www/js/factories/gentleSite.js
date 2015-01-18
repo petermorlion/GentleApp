@@ -2,9 +2,10 @@ function GentleSite(drupalClient, $q, $rootScope) {
   var gentleSite = {};
 
   gentleSite.headers = {'Content-Type': 'application/json'};
+  gentleSite.isLoggedIn = false;
 
   gentleSite.onSystemConnected = function() {
-
+    gentleSite.isLoggedIn = true;
   };
 
   gentleSite.onError = function() {

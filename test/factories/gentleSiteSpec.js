@@ -1,12 +1,14 @@
-describe('A GentleSite, when creating', function() {
+describe('A GentleSite, when creating with session', function() {
   var gentleSite, drupalClient = null;
 
   beforeEach(function() {
     drupalClient = {
-      systemConnect: function() {}
+      systemConnect: function(success, error) {
+        success();
+      }
     };
 
-    spyOn(drupalClient, 'systemConnect');
+    spyOn(drupalClient, 'systemConnect').and.callThrough();
 
     gentleSite = new GentleSite(drupalClient, null);
   });
@@ -16,6 +18,10 @@ describe('A GentleSite, when creating', function() {
       jasmine.any(Function),
       jasmine.any(Function),
       jasmine.objectContaining({'Content-Type': 'application/json'}));
+  });
+
+  it('should mark itself as logged in', function() {
+    expect(gentleSite.isLoggedIn).toBe(true);
   });
 });
 
