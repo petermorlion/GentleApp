@@ -38,6 +38,24 @@ function GentleSite(drupalClient, $q, $rootScope) {
     return deferred.promise();
   };
 
+  gentleSite.logout = function() {
+    var deferred = $q.defer();
+
+    drupalClient.logout(
+      function() {
+        deferred.resolve();
+        $rootScope.$apply();
+      },
+      function(e) {
+        deferred.reject(e);
+        $rootScope.$apply();
+      },
+      this.headers
+    );
+
+    return deferred.promise();
+  };
+
   gentleSite.init();
   return gentleSite;
 }

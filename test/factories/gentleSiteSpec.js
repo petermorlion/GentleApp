@@ -127,7 +127,7 @@ describe('A GentleSite, when failed to log in', function() {
     expect(result).toBe(promise);
   });
 
-  it('should login via the drupalClient', function() {
+  it('should tried to login via the drupalClient', function() {
     expect(drupalClient.login).toHaveBeenCalledWith(
       'u',
       'p',
@@ -136,11 +136,126 @@ describe('A GentleSite, when failed to log in', function() {
       jasmine.objectContaining({'Content-Type': 'application/json'}));
     });
 
-    it('should have called the reject function of the deferred', function() {
-      expect(deferred.reject).toHaveBeenCalledWith(e);
+  it('should have called the reject function of the deferred', function() {
+    expect(deferred.reject).toHaveBeenCalledWith(e);
+  });
+
+  it('should trigger the digest cycle', function() {
+    expect($rootScope.$apply).toHaveBeenCalled();
+  });
+});
+
+describe('A GentleSite, when logging out', function() {
+  var gentleSite, drupalClient, $q, result, promise, userData, deferred, $rootScope = null;
+
+  beforeEach(function() {
+    drupalClient = {
+      systemConnect: function() {},
+      logout: function(success, error) {
+        success();
+      }
+    };
+    spyOn(drupalClient, 'logout').and.callThrough();
+
+    deferred = {
+      promise: function() {
+        promise = {};
+        return promise;
+      },
+      resolve: function() {}
+    };
+    spyOn(deferred, 'resolve');
+
+    $q = {
+      defer: function() {
+        return deferred;
+      }
+    };
+
+    $rootScope = {
+      $apply: function() {}
+    };
+    spyOn($rootScope, '$apply');
+
+    gentleSite = new GentleSite(drupalClient, $q, $rootScope);
+
+    result = gentleSite.logout();
+  });
+
+  it('should return a Promise', function() {
+    expect(result).toBe(promise);
+  });
+
+  it('should logout via the drupalClient', function() {
+    expect(drupalClient.logout).toHaveBeenCalledWith(
+      jasmine.any(Function),
+      jasmine.any(Function),
+      jasmine.objectContaining({'Content-Type': 'application/json'}));
     });
 
-    it('should trigger the digest cycle', function() {
-      expect($rootScope.$apply).toHaveBeenCalled();
-    });
+  it('should have called the resolve function of the deferred', function() {
+    expect(deferred.resolve).toHaveBeenCalled();
   });
+
+  it('should trigger the digest cycle', function() {
+    expect($rootScope.$apply).toHaveBeenCalled();
+  });
+});
+
+describe('A GentleSite, when failing to log out', function() {
+  var gentleSite, drupalClient, $q, result, promise, userData, deferred, $rootScope, e = null;
+
+  beforeEach(function() {
+    drupalClient = {
+      systemConnect: function() {},
+      logout: function(success, error) {
+        e = {};
+        error(e);
+      }
+    };
+    spyOn(drupalClient, 'logout').and.callThrough();
+
+    deferred = {
+      promise: function() {
+        promise = {};
+        return promise;
+      },
+      reject: function() {}
+    };
+    spyOn(deferred, 'reject');
+
+    $q = {
+      defer: function() {
+        return deferred;
+      }
+    };
+
+    $rootScope = {
+      $apply: function() {}
+    };
+    spyOn($rootScope, '$apply');
+
+    gentleSite = new GentleSite(drupalClient, $q, $rootScope);
+
+    result = gentleSite.logout();
+  });
+
+  it('should return a Promise', function() {
+    expect(result).toBe(promise);
+  });
+
+  it('should tried to logout via the drupalClient', function() {
+    expect(drupalClient.logout).toHaveBeenCalledWith(
+      jasmine.any(Function),
+      jasmine.any(Function),
+      jasmine.objectContaining({'Content-Type': 'application/json'}));
+    });
+
+  it('should have called the reject function of the deferred', function() {
+    expect(deferred.reject).toHaveBeenCalledWith(e);
+  });
+
+  it('should trigger the digest cycle', function() {
+    expect($rootScope.$apply).toHaveBeenCalled();
+  });
+});
