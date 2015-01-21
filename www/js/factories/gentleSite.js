@@ -56,6 +56,28 @@ function GentleSite(drupalClient, $q, $rootScope) {
     return deferred.promise();
   };
 
+  gentleSite.get = function(servicePath) {
+    var deferred = $q.defer();
+
+    drupalClient.makeAuthenticatedRequest(
+    {
+      httpMethod: 'GET',
+      servicePath: servicePath,
+      contentType: 'application/json'
+    },
+    function(data) {
+      deferred.resolve(data);
+      $rootScope.$apply();
+    },
+    function(e) {
+      deferred.reject(e);
+      $rootScope.$apply();
+    },
+    this.headers);
+
+    return deferred.promise();
+  };
+
   gentleSite.init();
   return gentleSite;
 }

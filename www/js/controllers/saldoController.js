@@ -1,6 +1,4 @@
 function SaldoController(drupalClient, $scope) {
-	console.log('Creating SaldoController');
-
 	var vm = this;
 
 	vm._headers = {'Content-Type': 'application/json'};
@@ -21,6 +19,4 @@ function SaldoController(drupalClient, $scope) {
 			//TODO: handle error
 		},
 		vm._headers);
-
-	console.log('Created SaldoController');
 }
