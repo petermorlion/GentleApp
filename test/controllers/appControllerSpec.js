@@ -1,5 +1,5 @@
 describe('An appController, when viewContentLoading and not logged in', function() {
-	var messageService, scope, drupalClient, sessionData, state = null
+	var messageService, scope, gentleSite, sessionData, state = null
 	var eventHandler = null;
 
 	beforeEach(function() {
@@ -19,13 +19,9 @@ describe('An appController, when viewContentLoading and not logged in', function
 	      	}
 	    };
 
-		drupalClient = {
-			systemConnect: function(success, error) {
-		        success(sessionData);
-		    }
+		gentleSite = {
+			isLoggedIn: false
 		};
-
-		spyOn(drupalClient, 'systemConnect').and.callThrough();
 
 		state = {
 			go: function(to) {}
@@ -35,14 +31,9 @@ describe('An appController, when viewContentLoading and not logged in', function
 	});
 
 	it('should redirect to the login page', function() {
-		var appController = new AppController(messageService, scope, drupalClient, state);
+		var appController = new AppController(messageService, scope, gentleSite, state);
 
 		eventHandler();
-
-		expect(drupalClient.systemConnect).toHaveBeenCalledWith(
-	      	jasmine.any(Function),
-	      	jasmine.any(Function),
-	      	jasmine.objectContaining({'Content-Type': 'application/json'}));
 
 		expect(state.go).toHaveBeenCalledWith('app.login');
 

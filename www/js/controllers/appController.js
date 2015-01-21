@@ -1,6 +1,4 @@
-function AppController(messageService, $scope, drupalClient, $state) {
-	console.log('Creating AppController');
-
+function AppController(messageService, $scope, gentleSite, $state) {
 	var vm = this;
 
 	vm._headers = {'Content-Type': 'application/json'};
@@ -12,17 +10,9 @@ function AppController(messageService, $scope, drupalClient, $state) {
 	vm.menuItems = [];
 
 	$scope.$on('$viewContentLoaded', function(event, viewConfig){
-	    drupalClient.systemConnect(function(sessionData) {
-			if (sessionData.user.uid !== 0) {
-				vm.onLoggedIn();
-			}
-			else {
-				vm.onLoggedOut();
-			}
-		}, function(err){
-			// TODO: handle error
+		if (!gentleSite.isLoggedIn) {
 			vm.onLoggedOut();
-		}, vm._headers);
+		}
 	});
 
 	$scope.$on('loginSuccessful', function() { vm.onLoggedIn(); });

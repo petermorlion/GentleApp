@@ -9,7 +9,7 @@ function GentleSite(drupalClient, $q, $rootScope) {
   };
 
   gentleSite.onError = function() {
-
+    // TODO handle error
   };
 
   gentleSite.init = function() {
