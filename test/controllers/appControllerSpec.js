@@ -42,23 +42,21 @@ describe('An appController, when viewContentLoading and not logged in', function
 });
 
 describe('An appController, when closing the menu', function() {
-	var messageService, scope, drupalClient, rootScope = null;
+	var messageService, scope, rootScope = null;
 
 	beforeEach(function() {
 		messageService = {};
 		scope = {
 			$on: function() {}
 		};
-		drupalClient = {
-			systemConnect: function() {}
-		};
+
 		rootScope = {
 			$on: function() {}
 		};
 	});
 
 	it('should set the menu as closed', function() {
-		var appController = new AppController(messageService, scope, drupalClient, null, rootScope);
+		var appController = new AppController(messageService, scope, null, null, rootScope);
 
 		appController.closeMenu();
 
@@ -67,23 +65,21 @@ describe('An appController, when closing the menu', function() {
 });
 
 describe('An appController, when opening the menu', function() {
-	var messageService, scope, drupalClient, rootScope = null;
+	var messageService, scope, rootScope = null;
 
 	beforeEach(function() {
 		messageService = {};
 		scope = {
 			$on: function() {}
 		};
-		drupalClient = {
-			systemConnect: function() {}
-		};
+		
 		rootScope = {
 			$on: function() {}
 		};
 	});
 
 	it('should set the menu as opened', function() {
-		var appController = new AppController(messageService, scope, drupalClient, null, rootScope);
+		var appController = new AppController(messageService, scope, null, null, rootScope);
 
 		appController.openMenu();
 
