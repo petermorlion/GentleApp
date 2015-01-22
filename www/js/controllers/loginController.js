@@ -9,7 +9,7 @@ function LoginController(gentleSite, messageService, $mdToast) {
 	vm.password = '';
 	vm.isLoggedIn = false;
 
-	vm.isBusy = true;
+	vm.isBusy = false;
 };
 
 LoginController.prototype.login = function() {
@@ -26,6 +26,7 @@ LoginController.prototype.login = function() {
 	});
 };
 
+// TODO: use gentleSite & promises
 LoginController.prototype.logout = function() {
 	var vm = this;
 	vm.isBusy = true;
