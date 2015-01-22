@@ -4,8 +4,9 @@ function GentleSite(drupalClient, $q, $rootScope) {
   gentleSite.headers = {'Content-Type': 'application/json'};
   gentleSite.isLoggedIn = false;
 
-  gentleSite.onSystemConnected = function() {
+  gentleSite.onSystemConnected = function(sessionData) {
     gentleSite.isLoggedIn = true;
+    gentleSite.uid = sessionData.user.uid;
   };
 
   gentleSite.onError = function() {
@@ -26,6 +27,7 @@ function GentleSite(drupalClient, $q, $rootScope) {
       username,
       password,
       function(userData) {
+        gentleSite.uid = userData.uid;
         deferred.resolve(userData);
         $rootScope.$apply();
       },
@@ -43,6 +45,7 @@ function GentleSite(drupalClient, $q, $rootScope) {
 
     drupalClient.logout(
       function() {
+        gentleSite.uid = undefined;
         deferred.resolve();
         $rootScope.$apply();
       },

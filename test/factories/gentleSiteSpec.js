@@ -1,10 +1,13 @@
 describe('A GentleSite, when creating with session', function() {
-  var gentleSite, drupalClient = null;
+  var gentleSite, drupalClient, sessionData = null;
 
   beforeEach(function() {
     drupalClient = {
       systemConnect: function(success, error) {
-        success();
+        sessionData = {
+          user: { uid: 10 }
+        };
+        success(sessionData);
       }
     };
 
@@ -23,6 +26,10 @@ describe('A GentleSite, when creating with session', function() {
   it('should mark itself as logged in', function() {
     expect(gentleSite.isLoggedIn).toBe(true);
   });
+
+  it('should set the uid', function() {
+    expect(gentleSite.uid).toBe(10);
+  });
 });
 
 describe('A GentleSite, when logging in', function() {
@@ -32,7 +39,7 @@ describe('A GentleSite, when logging in', function() {
     drupalClient = {
       systemConnect: function() {},
       login: function(username, password, success, error) {
-        userData = {};
+        userData = { uid: 10 };
         success(userData);
       }
     };
@@ -82,6 +89,10 @@ describe('A GentleSite, when logging in', function() {
 
   it('should trigger the digest cycle', function() {
     expect($rootScope.$apply).toHaveBeenCalled();
+  });
+
+  it('should set the uid', function() {
+    expect(gentleSite.uid).toBe(10);
   });
 });
 
@@ -143,6 +154,10 @@ describe('A GentleSite, when failed to log in', function() {
   it('should trigger the digest cycle', function() {
     expect($rootScope.$apply).toHaveBeenCalled();
   });
+
+  it('should clear the uid', function() {
+    expect(gentleSite.uid).toBe(undefined);
+  });
 });
 
 describe('A GentleSite, when logging out', function() {
@@ -178,6 +193,7 @@ describe('A GentleSite, when logging out', function() {
     spyOn($rootScope, '$apply');
 
     gentleSite = new GentleSite(drupalClient, $q, $rootScope);
+    gentleSite.uid = 10;
 
     result = gentleSite.logout();
   });
@@ -199,6 +215,10 @@ describe('A GentleSite, when logging out', function() {
 
   it('should trigger the digest cycle', function() {
     expect($rootScope.$apply).toHaveBeenCalled();
+  });
+
+  it('should clear the uid', function() {
+    expect(gentleSite.uid).toBe(undefined);
   });
 });
 
