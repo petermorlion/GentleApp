@@ -37,7 +37,7 @@ function GentleSite(drupalClient, $q, $rootScope) {
       },
       this.headers);
 
-    return deferred.promise();
+    return deferred.promise;
   };
 
   gentleSite.logout = function() {
@@ -56,7 +56,7 @@ function GentleSite(drupalClient, $q, $rootScope) {
       this.headers
     );
 
-    return deferred.promise();
+    return deferred.promise;
   };
 
   gentleSite.get = function(servicePath) {
@@ -78,7 +78,7 @@ function GentleSite(drupalClient, $q, $rootScope) {
     },
     this.headers);
 
-    return deferred.promise();
+    return deferred.promise;
   };
 
   gentleSite.init();

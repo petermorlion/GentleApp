@@ -13,9 +13,9 @@ angular
 }])
 
 .factory('drupalClient', DrupalClient)
-.factory('gentleSite', ['drupalClient', '$q', GentleSite])
+.factory('gentleSite', ['drupalClient', '$q', '$rootScope', GentleSite])
 .factory('messageService', ['$rootScope', MessageService])
 
-.controller('LoginController', ['drupalClient', 'messageService', '$scope', '$mdToast', LoginController])
-.controller('AppController', ['messageService', '$scope', 'drupalClient', '$state', '$rootScope', AppController])
-.controller('SaldoController', ['drupalClient', '$scope', SaldoController]);
+.controller('LoginController', ['gentleSite', 'messageService', '$scope', '$mdToast', LoginController])
+.controller('AppController', ['messageService', '$scope', 'gentleSite', '$state', '$rootScope', AppController])
+.controller('SaldoController', ['gentleSite', '$scope', SaldoController]);
