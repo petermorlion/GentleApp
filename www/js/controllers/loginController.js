@@ -7,7 +7,7 @@ function LoginController(gentleSite, messageService, $mdToast) {
 
 	vm.username = '';
 	vm.password = '';
-	vm.isLoggedIn = false;
+	vm.isLoggedIn = gentleSite.isLoggedIn;
 
 	vm.isBusy = false;
 };

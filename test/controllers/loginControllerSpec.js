@@ -107,3 +107,19 @@ describe("A loginController with incorrect credentials entered by the user", fun
     expect(mdToast.show).toHaveBeenCalledWith(toast);
   });
 });
+
+describe('A loginController with logged in user', function() {
+  var gentleSite, messageService, sessionData, loginController, $rootScope = null;
+
+  beforeEach(inject(function(_$rootScope_, $q) {
+    gentleSite = {
+      isLoggedIn: true
+    };
+
+    loginController = new LoginController(gentleSite, messageService, null);
+  }));
+
+  it ('should mark itsself as logged in', function() {
+    expect(loginController.isLoggedIn).toBe(true);
+  });
+});
