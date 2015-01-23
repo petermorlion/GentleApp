@@ -71,7 +71,7 @@ describe('A GentleSite, when logging in', function() {
   });
 
   it('should return a Promise', function() {
-    expect(result).toBe(promise);
+    expect(result()).toBe(promise);
   });
 
   it('should login via the drupalClient', function() {
@@ -135,7 +135,7 @@ describe('A GentleSite, when failed to log in', function() {
   });
 
   it('should return a Promise', function() {
-    expect(result).toBe(promise);
+    expect(result()).toBe(promise);
   });
 
   it('should tried to login via the drupalClient', function() {
@@ -199,7 +199,7 @@ describe('A GentleSite, when logging out', function() {
   });
 
   it('should return a Promise', function() {
-    expect(result).toBe(promise);
+    expect(result()).toBe(promise);
   });
 
   it('should logout via the drupalClient', function() {
@@ -261,7 +261,7 @@ describe('A GentleSite, when failing to log out', function() {
   });
 
   it('should return a Promise', function() {
-    expect(result).toBe(promise);
+    expect(result()).toBe(promise);
   });
 
   it('should tried to logout via the drupalClient', function() {
@@ -320,7 +320,7 @@ describe('A gentleSite, when getting successfully', function() {
   });
 
   it('should return a Promise', function() {
-    expect(result).toBe(promise);
+    expect(result()).toBe(promise);
   });
 
   it('should tried to make an authenticated request via the drupalClient', function() {
@@ -383,7 +383,7 @@ describe('A gentleSite, when getting fails', function() {
   });
 
   it('should return a Promise', function() {
-    expect(result).toBe(promise);
+    expect(result()).toBe(promise);
   });
 
   it('should tried to make an authenticated request via the drupalClient', function() {
