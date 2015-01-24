@@ -22,7 +22,7 @@ gulp.task('test', function() {
 });
 
 gulp.task('lint', function() {
-  return gulp.src('./www/js/**/*.js')
+  return gulp.src(['./www/js/**/*.js', './test/**/*.js'])
     .pipe(jshint())
     .pipe(jshint.reporter('default'))
     .pipe(jshint.reporter('fail'));

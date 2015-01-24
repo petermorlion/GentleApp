@@ -1,5 +1,5 @@
 describe('An appController, when viewContentLoading and not logged in', function() {
-	var messageService, scope, gentleSite, sessionData, state = null
+	var messageService, scope, gentleSite, sessionData, state = null;
 	var eventHandler = null;
 
 	beforeEach(function() {
@@ -72,7 +72,7 @@ describe('An appController, when opening the menu', function() {
 		scope = {
 			$on: function() {}
 		};
-		
+
 		rootScope = {
 			$on: function() {}
 		};
