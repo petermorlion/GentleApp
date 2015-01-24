@@ -109,7 +109,7 @@ describe('A GentleSite', function() {
       e = {};
       drupalClient.login = function(username, password, success, error) {
         error(e);
-      }
+      };
 
       spyOn(drupalClient, 'login').and.callThrough();
 
@@ -270,7 +270,7 @@ describe('A GentleSite', function() {
 
       drupalClient.makeAuthenticatedRequest = function(options, success, error, headers) {
         error(e);
-      }
+      };
 
       spyOn(drupalClient, 'makeAuthenticatedRequest').and.callThrough();
 

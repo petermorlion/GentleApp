@@ -1,5 +1,5 @@
 describe('An appController, when viewContentLoading and not logged in', function() {
-	var messageService, scope, gentleSite, sessionData, state = null
+	var messageService, scope, gentleSite, sessionData, state = null;
 	var eventHandler = null;
 
 	beforeEach(function() {
