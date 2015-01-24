@@ -1,169 +1,110 @@
-describe('A loginController with correct credentials entered by the user', function() {
-  var gentleSite, messageService, sessionData, loginController, $rootScope = null;
+describe('A loginController', function() {
+  var $rootScope, deferred, loginController, gentleSite, messageService, toast, mdToast = null;
 
   beforeEach(inject(function(_$rootScope_, $q) {
     $rootScope = _$rootScope_;
 
-    var deferred = $q.defer();
-    deferred.resolve({});
+    deferred = $q.defer();
+
+    gentleSite = {
+      login: function(username, password) {},
+      logout: function() {}
+    };
+
+    spyOn(gentleSite, 'login').and.returnValue(deferred.promise);
+    spyOn(gentleSite, 'logout').and.returnValue(deferred.promise);
 
     messageService = {
       broadcast: function() {}
     };
 
     spyOn(messageService, 'broadcast');
-
-    scope = {
-      $apply: function() {}
-    };
-
-    spyOn(scope, '$apply');
-
-    gentleSite = {
-      login: function(username, password) {}
-    };
-
-    spyOn(gentleSite, 'login').and.returnValue(deferred.promise);
-
-    loginController = new LoginController(gentleSite, messageService, null);
-
-    loginController.username = "User";
-    loginController.password = "Pass";
-
-    loginController.login();
-
-    $rootScope.$apply();
-  }));
-
-  it("should be able to login", function() {
-    expect(loginController.isLoggedIn).toBe(true);
-    expect(loginController.isBusy).toBe(false);
-  });
-
-  it('should broadcast the successful login', function() {
-    expect(messageService.broadcast).toHaveBeenCalledWith('loginSuccessful');
-  });
-});
-
-describe('A loginController with incorrect credentials entered by the user', function() {
-  var gentleSite, messageService, sessionData, loginController, $rootScope, toast, mdToast = null;
-
-  beforeEach(inject(function(_$rootScope_, $q) {
-    $rootScope = _$rootScope_;
-
-    var deferred = $q.defer();
-    deferred.reject({});
-
-    messageService = {
-      broadcast: function() {}
-    };
-
-    spyOn(messageService, 'broadcast');
-
-    scope = {
-      $apply: function() {}
-    };
-
-    spyOn(scope, '$apply');
-
-    gentleSite = {
-      login: function(username, password) {}
-    };
-    spyOn(gentleSite, 'login').and.returnValue(deferred.promise);
 
     toast = {
-      content: function(){
-        return toast;
-      }
+      content: function(){}
     };
-    spyOn(toast, 'content').and.callThrough();
+
+    spyOn(toast, 'content').and.returnValue(toast);
 
     mdToast = {
-      simple: function() {
-        return toast;
-      },
+      simple: function() {},
       show: function() {}
     };
-    spyOn(mdToast, 'simple').and.callThrough();
+
+    spyOn(mdToast, 'simple').and.returnValue(toast);
     spyOn(mdToast, 'show');
 
     loginController = new LoginController(gentleSite, messageService, mdToast);
-
-    loginController.username = "User";
-    loginController.password = "Pass";
-
-    loginController.login();
-
-    $rootScope.$apply();
   }));
 
-  it("should not be able to login", function() {
-    expect(loginController.isLoggedIn).toBe(false);
-    expect(loginController.isBusy).toBe(false);
+  describe('with correct credentials when logging in', function() {
+    beforeEach(function() {
+      loginController.username = "User";
+      loginController.password = "Pass";
+
+      loginController.login();
+      deferred.resolve({});
+      $rootScope.$apply();
+    });
+
+    it('should be able to login', function() {
+      expect(loginController.isLoggedIn).toBe(true);
+      expect(loginController.isBusy).toBe(false);
+    });
+
+    it('should call the gentleSite with the provided credentials', function() {
+      expect(gentleSite.login).toHaveBeenCalledWith("User", "Pass");
+    });
+
+    it('should broadcast the successful login', function() {
+      expect(messageService.broadcast).toHaveBeenCalledWith('loginSuccessful');
+    });
   });
 
-  it('should broadcast the unsuccessful login', function() {
-    expect(toast.content).toHaveBeenCalledWith('Het inloggen is mislukt.');
-    expect(mdToast.show).toHaveBeenCalledWith(toast);
-  });
-});
+  describe('with incorrect credentials when logging in', function() {
+    beforeEach(function() {
+      loginController.username = "User";
+      loginController.password = "Pass";
 
-describe('A loginController with logged in user', function() {
-  var gentleSite, messageService, sessionData, loginController, $rootScope = null;
+      loginController.login();
+      deferred.reject({});
+      $rootScope.$apply();
+    });
 
-  beforeEach(inject(function(_$rootScope_, $q) {
-    gentleSite = {
-      isLoggedIn: true
-    };
+    it("should not be able to login", function() {
+      expect(loginController.isLoggedIn).toBe(false);
+      expect(loginController.isBusy).toBe(false);
+    });
 
-    loginController = new LoginController(gentleSite, messageService, null);
-  }));
+    it('should call the gentleSite with the provided credentials', function() {
+      expect(gentleSite.login).toHaveBeenCalledWith("User", "Pass");
+    });
 
-  it ('should mark itsself as logged in', function() {
-    expect(loginController.isLoggedIn).toBe(true);
-  });
-});
+    it('should broadcast the unsuccessful login', function() {
+      expect(toast.content).toHaveBeenCalledWith('Het inloggen is mislukt.');
+    });
 
-describe('A loginController when logging out', function() {
-  var gentleSite, messageService, sessionData, loginController, $rootScope = null;
-
-  beforeEach(inject(function(_$rootScope_, $q) {
-    $rootScope = _$rootScope_;
-
-    var deferred = $q.defer();
-    deferred.resolve({});
-
-    messageService = {
-      broadcast: function() {}
-    };
-
-    spyOn(messageService, 'broadcast');
-
-    scope = {
-      $apply: function() {}
-    };
-
-    spyOn(scope, '$apply');
-
-    gentleSite = {
-      logout: function(username, password) {}
-    };
-
-    spyOn(gentleSite, 'logout').and.returnValue(deferred.promise);
-
-    loginController = new LoginController(gentleSite, messageService, null);
-
-    loginController.logout();
-
-    $rootScope.$apply();
-  }));
-
-  it("should be able to logout", function() {
-    expect(loginController.isLoggedIn).toBe(false);
-    expect(loginController.isBusy).toBe(false);
+    it('should show a message to the user', function() {
+      expect(mdToast.show).toHaveBeenCalledWith(toast);
+    });
   });
 
-  it('should broadcast the successful logout', function() {
-    expect(messageService.broadcast).toHaveBeenCalledWith('logoutSuccessful');
+  describe('when logging out', function() {
+    beforeEach(function() {
+      loginController.isLoggedIn = true;
+
+      loginController.logout();
+      deferred.resolve();
+      $rootScope.$apply();
+    });
+
+    it("should be able to logout", function() {
+      expect(loginController.isLoggedIn).toBe(false);
+      expect(loginController.isBusy).toBe(false);
+    });
+
+    it('should broadcast the successful logout', function() {
+      expect(messageService.broadcast).toHaveBeenCalledWith('logoutSuccessful');
+    });
   });
 });

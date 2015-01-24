@@ -18,8 +18,6 @@ function AppController(messageService, $scope, gentleSite, $state) {
 	$scope.$on('loginSuccessful', function() { vm.onLoggedIn(); });
 
 	$scope.$on('logoutSuccessful', function() { vm.onLoggedOut(); });
-
-	console.log('Created AppController');
 }
 
 AppController.prototype.closeMenu = function() {
