@@ -10,7 +10,7 @@ function LoginController(gentleSite, messageService, $mdToast) {
 	vm.isLoggedIn = gentleSite.isLoggedIn;
 
 	vm.isBusy = false;
-};
+}
 
 LoginController.prototype.login = function() {
 	var vm = this;

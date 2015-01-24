@@ -1,7 +1,8 @@
 var gulp = require('gulp');
 var karma = require('gulp-karma');
+var jshint = require('gulp-jshint');
 
-gulp.task('default', ['test']);
+gulp.task('default', ['lint', 'test']);
 
 gulp.task('test', function() {
   // Be sure to return the stream
@@ -18,4 +19,11 @@ gulp.task('test', function() {
       console.log(err);
       this.emit('end'); //instead of erroring the stream, end it
     });
+});
+
+gulp.task('lint', function() {
+  return gulp.src('./www/js/**/*.js')
+    .pipe(jshint())
+    .pipe(jshint.reporter('default'))
+    .pipe(jshint.reporter('fail'));
 });
