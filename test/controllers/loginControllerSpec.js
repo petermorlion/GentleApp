@@ -1,4 +1,4 @@
-describe("A loginController with correct credentials entered by the user", function() {
+describe('A loginController with correct credentials entered by the user', function() {
   var gentleSite, messageService, sessionData, loginController, $rootScope = null;
 
   beforeEach(inject(function(_$rootScope_, $q) {
@@ -45,7 +45,7 @@ describe("A loginController with correct credentials entered by the user", funct
   });
 });
 
-describe("A loginController with incorrect credentials entered by the user", function() {
+describe('A loginController with incorrect credentials entered by the user', function() {
   var gentleSite, messageService, sessionData, loginController, $rootScope, toast, mdToast = null;
 
   beforeEach(inject(function(_$rootScope_, $q) {
@@ -121,5 +121,49 @@ describe('A loginController with logged in user', function() {
 
   it ('should mark itsself as logged in', function() {
     expect(loginController.isLoggedIn).toBe(true);
+  });
+});
+
+describe('A loginController when logging out', function() {
+  var gentleSite, messageService, sessionData, loginController, $rootScope = null;
+
+  beforeEach(inject(function(_$rootScope_, $q) {
+    $rootScope = _$rootScope_;
+
+    var deferred = $q.defer();
+    deferred.resolve({});
+
+    messageService = {
+      broadcast: function() {}
+    };
+
+    spyOn(messageService, 'broadcast');
+
+    scope = {
+      $apply: function() {}
+    };
+
+    spyOn(scope, '$apply');
+
+    gentleSite = {
+      logout: function(username, password) {}
+    };
+
+    spyOn(gentleSite, 'logout').and.returnValue(deferred.promise);
+
+    loginController = new LoginController(gentleSite, messageService, null);
+
+    loginController.logout();
+
+    $rootScope.$apply();
+  }));
+
+  it("should be able to logout", function() {
+    expect(loginController.isLoggedIn).toBe(false);
+    expect(loginController.isBusy).toBe(false);
+  });
+
+  it('should broadcast the successful logout', function() {
+    expect(messageService.broadcast).toHaveBeenCalledWith('logoutSuccessful');
   });
 });

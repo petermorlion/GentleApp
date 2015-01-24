@@ -26,18 +26,16 @@ LoginController.prototype.login = function() {
 	});
 };
 
-// TODO: use gentleSite & promises
 LoginController.prototype.logout = function() {
 	var vm = this;
 	vm.isBusy = true;
-		vm._drupalClient.logout(function() {
-			vm._messageService.broadcast('logoutSuccessful');
-			vm.isLoggedIn = false;
-			vm.isBusy = false;
-			vm._scope.$apply();
-		}, function(err) {
-			// TODO: error handling
-			vm.isBusy = false;
-			vm._scope.$apply();
-		}, vm._headers);
+	vm._gentleSite.logout().then(function() {
+		vm._messageService.broadcast('logoutSuccessful');
+		vm.isLoggedIn = false;
+		vm.isBusy = false;
+	}).catch(function() {
+		vm.isLoggedIn = false;
+		vm.isBusy = false;
+		vm._mdToast.show(vm._mdToast.simple().content('Het uitloggen is mislukt.'));
+	});
 };
