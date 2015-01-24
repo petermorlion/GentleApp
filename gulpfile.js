@@ -24,6 +24,6 @@ gulp.task('test', function() {
 gulp.task('lint', function() {
   return gulp.src(['./www/js/**/*.js', './test/**/*.js'])
     .pipe(jshint())
-    .pipe(jshint.reporter('default'))
+    .pipe(jshint.reporter('jshint-stylish'))
     .pipe(jshint.reporter('fail'));
 });
