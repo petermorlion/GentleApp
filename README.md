@@ -2,6 +2,8 @@
 
 A mobile app for Gentle Ultimate frisbee team.
 
+No longer maintained.
+
 ###Development###
 This is probably obvious if you're a seasoned node developer, but it's new to me, so I'm adding this for later reference.
 
